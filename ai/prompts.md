@@ -324,3 +324,149 @@ AI is updating prompts.md, agent-log.md, and reflection.md with complete convers
 - [ ] Rejected
 
 **Explanation:** This satisfies the AI evidence requirements for the coursework.
+
+---
+
+## Prompt 13
+
+- **Time:** 2026-06-09
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant / Java Tutor
+- **Related Commit:** 9793cb9
+
+### My Prompt
+
+"装备类的implements是什么意思" / "Serializable这个是什么意思" / "implements关键字是什么意思" / "Admin类里的1L是什么意思" / "这个类最后两个方法是什么意思" (equals and hashCode) / "这里的other是什么"
+
+### AI Response Summary
+
+AI explained:
+- `implements Serializable` = a marker tag that tells Java this object can be saved to files
+- `Serializable` = an empty interface from Java that acts as a "save permission stamp"
+- `implements` = "I follow this contract" (unlike `extends` which means "I am your child"); a class can implement multiple interfaces
+- `1L` = version number for serialization (same concept as in Person class)
+- `equals()` = compares two Person objects by their `id` field (same ID = same person)
+- `hashCode()` = provides a numeric code for fast HashMap lookup; must be consistent with equals()
+- `other` = the variable name for "the other object being compared to me" after casting Object to Person
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** These explanations helped me understand core Java concepts. The `equals()`/`hashCode()` explanation was especially useful — I now understand why two Person objects with the same ID are considered equal.
+
+---
+
+## Prompt 14
+
+- **Time:** 2026-06-11
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant / Java Tutor
+- **Related Commit:** 9793cb9
+
+### My Prompt
+
+"public abstract String getRole();这句是什么意思" / "attackbonus是什么意思" / "这里的displayname是什么意思" / "我还是不懂最前面的六个表达式是什么" (the 6 enum constants) / "public int getTotalAttack()方法是什么"
+
+### AI Response Summary
+
+AI explained:
+- `public abstract String getRole()` = an abstract method with no body ({}). Person declares it but doesn't implement it; Player returns "Player" and Admin returns "Admin" — this is polymorphism
+- `attackBonus` = attack bonus value an equipment provides (broken down as attack + bonus)
+- `displayName` = a human-readable name for enum values (e.g., "Attack" vs the code name "ATTACK")
+- The 6 lines in HeroType (`MAGE("Mage"), ASSASSIN("Assassin"), ...`) = the 6 fixed enum constants, each passing a display name string to the constructor
+- `getTotalAttack()` = loops through all equipped items, sums up their attackBonus values, and returns baseAttack + totalBonus
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** I now understand the complete enum structure, how abstract methods force subclasses to provide behavior, and how equipment stat bonuses are calculated for combat.
+
+---
+
+## Prompt 15
+
+- **Time:** 2026-06-11
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant / Java Tutor
+- **Related Commit:** 9793cb9
+
+### My Prompt
+
+"private List<Equipment> equippedItems;这个List<>是什么类" / "这个list列表有什么要求吗" / "那list究竟是什么" / "所以list是不是抽象方法"
+
+### AI Response Summary
+
+AI explained the full stack:
+- `List` = a Java interface (contract) that defines what all lists must do: add(), get(), remove(), size(), etc.
+- `<Equipment>` = generics — restricts the list to only hold Equipment objects
+- `ArrayList` = one concrete implementation of List (dynamic array — fast for lookup by index)
+- `LinkedList` = another implementation (linked list — fast for insert/delete in middle)
+- The user correctly reasoned that List is like "a collection of abstract methods" — AI confirmed this is exactly right, and List is an interface containing dozens of abstract method declarations
+- Coding to the interface (`List<Equipment> items = new ArrayList<>()`) means you can switch implementations later without changing other code
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** This conversation thread helped me understand the difference between interface (List) and implementation (ArrayList), generics (<>), and why we code to interfaces. My own reasoning that List is essentially a set of abstract methods was confirmed.
+
+---
+
+## Prompt 16
+
+- **Time:** 2026-06-11
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant / Java Tutor
+- **Related Commit:** 9793cb9
+
+### My Prompt
+
+"英雄种类有哪些" / "MatchRecord这个是什么类" / "addHeroPicked(String heroId)这是什么方法"
+
+### AI Response Summary
+
+AI explained:
+- 6 hero types: MAGE(法师), ASSASSIN(刺客), TANK(坦克), WARRIOR(战士), SUPPORT(辅助), MARKSMAN(射手) with example heroes from the dataset
+- MatchRecord = a class representing a completed match between two teams, storing: matchId, teamA/B IDs, result (WIN/LOSS from teamA's perspective), hero picks, date, and duration
+- `addHeroPicked(String heroId)` = adds a hero ID to the match's hero pick list, with duplicate checking. Uses hero ID (String) instead of full Hero object to avoid data inconsistency
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** I now understand all 7 model classes and their structure. The hero types match the official Honor of Kings roles, and MatchRecord stores matches by referencing team/hero IDs rather than full objects.
+
+---
+
+## Prompt 17
+
+- **Time:** 2026-06-11
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant
+- **Related Commit:** Pending
+
+### My Prompt
+
+"能不能把我和你的对话记录上传到md文档"
+
+### AI Response Summary
+
+AI updated prompts.md with Prompts 13–17 covering all Java concept Q&A, and updated agent-log.md to reflect the ongoing learning session.
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** Keeping the AI evidence up to date as required by the coursework.

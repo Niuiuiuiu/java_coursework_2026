@@ -87,3 +87,22 @@ Not yet engaged. Planned for Stage 7 of the development timeline.
 
 ### Prompt Strategy
 I found that short, specific prompts in Chinese worked best (e.g., "person类中abstract是什么意思"). When I asked broad questions ("把目前我和你的所有对话存进去就行"), the AI was able to synthesize a comprehensive record. The AI also proactively asked clarifying questions when needed and confirmed actions before executing them (e.g., git push).
+
+### Java Concept Learning (2026-06-09 to 2026-06-11)
+
+The AI acted as a Java Tutor, explaining the following concepts in plain Chinese:
+
+| Concept | What I Learned |
+|---------|---------------|
+| `abstract` class/method | Cannot be instantiated directly; subclasses must implement abstract methods |
+| `implements` | Following an interface contract; different from `extends` (inheritance) |
+| `Serializable` | A marker interface — a "save permission stamp" for file I/O |
+| `serialVersionUID` | Version tag to prevent reading incompatible saved data |
+| `equals()` / `hashCode()` | Object identity: same ID = same person; hash code for fast HashMap lookup |
+| `List<E>` | An interface defining list behavior; `ArrayList` is one concrete implementation |
+| Generics (`<Equipment>`) | Restricts a container to only hold a specific type |
+| Enum structure | Fixed set of constants, each calling the constructor with display name |
+| `displayName` | Human-readable name for enum values |
+| `attackBonus` etc. | Equipment stat bonuses that contribute to total hero stats |
+
+I reviewed all 11 Java source files and asked questions about every keyword and concept I didn't understand. This helped me satisfy the coursework requirement of being able to explain every class and method.
