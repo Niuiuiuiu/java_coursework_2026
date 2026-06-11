@@ -470,3 +470,146 @@ AI updated prompts.md with Prompts 13–17 covering all Java concept Q&A, and up
 - [ ] Rejected
 
 **Explanation:** Keeping the AI evidence up to date as required by the coursework.
+
+---
+
+## Prompt 18
+
+- **Time:** 2026-06-11
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** Architect Agent / Implementation Agent
+- **Related Commit:** Pending
+
+### My Prompt
+
+"写完这些最基本的类，下一步要做什么" / "好" (agreeing to write Stage 4)
+
+### AI Response Summary
+
+AI wrote Stage 4 files:
+- `GameDataManager.java` — central data store with HashMap/ArrayList, CRUD for all entities, authentication, cascade delete (hero deletion removes from all players)
+- `SearchService.java` — formatted search and display for players, teams, heroes, equipment, and match history
+- `RankingService.java` — leaderboards by win rate/level/matches/custom score, equipment ranking by composite score and usage count. Custom score formula: WinRate×0.4 + Level×0.3 + Matches×0.3
+- `InputHelper.java` — safe console input with validation (readString, readInt, readIntInRange, readDouble, waitForEnter)
+- `Main.java` — full menu-driven console interface with login system, player menu (7 options), admin menu (11 options). Admin can CRUD players, heroes, equipment, teams, and match records.
+- All 16 Java files compiled successfully with zero errors.
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** Stage 4 is now complete. The program is fully functional with all 8 required features implemented. The admin CRUD operations include cascade deletes (removing a hero also removes it from player-owned lists).
+
+---
+
+## Prompt 19
+
+- **Time:** 2026-06-12
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant / Java Tutor
+- **Related Commit:** Pending
+
+### My Prompt
+
+"我运行后要输入什么" / "管理员密码是什么" / "有没有什么玩家名"
+
+### AI Response Summary
+
+AI provided the login credentials and usage guide:
+- Admin: username=`admin`, password=`admin123`
+- 12 players: usernames `player1`–`player12`, all passwords=`pass123`
+- Player IDs: P001–P012 (used for lookup, not login)
+- Explained the difference between login username (e.g. `player1`) and player ID (e.g. `P001`)
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** I initially confused login usernames with player IDs. The AI clarified and ran a diagnostic test proving P001 and SkyKing both work correctly.
+
+---
+
+## Prompt 20
+
+- **Time:** 2026-06-12
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant / Java Tutor
+- **Related Commit:** Pending
+
+### My Prompt
+
+"为什么输入玩家id player1会说是非法的id" / "输入P001和SkyKing都不行"
+
+### AI Response Summary
+
+AI ran a non-interactive simulation test (`QuickTest`) to verify data initialization. Results confirmed:
+- `searchPlayerById("P001")` → correctly returns SkyKing with full details
+- `searchPlayerByName("SkyKing")` → correctly returns P001
+- All 12 players' data is correct
+The AI diagnosed the user was likely entering `P001` at the Login screen instead of the Player Lookup screen.
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** The AI proved the code works. My mistake was confusing the Login interface with the Player Lookup interface.
+
+---
+
+## Prompt 21
+
+- **Time:** 2026-06-12
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant / Java Tutor
+- **Related Commit:** Pending
+
+### My Prompt
+
+"为什么我看到的程序中new一个对象的构造后面会看到灰灰的id和name之类的字样"
+
+### AI Response Summary
+
+AI explained that gray text is **Inlay Hints** — a VSCode feature that displays parameter names next to argument values to help readability. They are NOT part of the code; the IDE adds them visually and the compiler ignores them. They can be toggled off in VSCode settings.
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** Now I understand this is an IDE feature, not part of my Java code.
+
+---
+
+## Prompt 22
+
+- **Time:** 2026-06-12
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant / Java Tutor
+- **Related Commit:** Pending
+
+### My Prompt
+
+"allEquipment这个是在哪里声明的" / "equipHero这是什么方法" / "你再说一下这个for是什么意思来着" / "所以id和e只是相当于参数的符号？"
+
+### AI Response Summary
+
+AI explained:
+- `allEquipment` = a method parameter declared in `createHeroes(List<Equipment> allEquipment)`, passed in from `GameDataManager.initializeData()`
+- `equipHero` = a private static helper method that takes a hero, the full equipment list, and variable arguments (`String... ids`) — it loops through each ID, searches the equipment list, and equips matching items to the hero
+- The nested for loop: outer loop iterates over desired equipment IDs, inner loop searches the full equipment catalog for a match — like a shopping list checked against a store catalog
+- `id` and `e` are just variable names for the current iteration element; they could be named anything (e.g., `x` and `y`)
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** I now understand method parameters, variable arguments (`String...`), and how nested for-each loops work together. Confirmed that loop variable names are arbitrary and chosen for readability.
