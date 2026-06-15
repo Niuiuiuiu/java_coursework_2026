@@ -178,7 +178,7 @@ public class GameDataManager {
     }
 
     public List<Equipment> getAllEquipment() {
-        return new ArrayList<>(equipment.values());
+        return new ArrayList<>(equipment.values());//HashMap中返回所有值的方法
     }
 
     public Equipment findEquipmentByName(String name) {
@@ -236,7 +236,7 @@ public class GameDataManager {
      */
     public List<Player> getTeamMembers(String teamId) {
         List<Player> members = new ArrayList<>();
-        Team team = teams.get(teamId);
+        Team team = teams.get(teamId); //返回Team类型的那个对象
         if (team != null) {
             for (String pid : team.getMemberIds()) {
                 Player p = players.get(pid);

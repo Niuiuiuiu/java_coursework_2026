@@ -613,3 +613,138 @@ AI explained:
 - [ ] Rejected
 
 **Explanation:** I now understand method parameters, variable arguments (`String...`), and how nested for-each loops work together. Confirmed that loop variable names are arbitrary and chosen for readability.
+
+---
+
+## Prompt 23
+
+- **Time:** 2026-06-15
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant / Java Tutor
+- **Related Commit:** Pending
+
+### My Prompt
+
+"这个文件的winrate是什么意思" / "ArrayList<>(data.getAllPlayers());这个的带参构造和不带参构造是什么" / "players.values()这个方法是什么" / "sorted.sort(...)这段语句是什么意思" / "能不能再讲一下sort方法" / "接口和方法有什么区别" / "接口就是一堆抽象方法的集合吗" / "能不能再讲一下sort方法" / "sort是排序方法吗，它需要创建什么类型的类才能调用" / "sort是排序方法吗" / "它是list类内的抽象方法还是默认方法" / "sort的参数是什么"
+
+### AI Response Summary
+
+AI explained:
+- `winRate` = player match win rate as percentage (0–100): `matchesWon / matchesPlayed × 100`; returns 0.0 if no matches played
+- `new ArrayList<>()` vs `new ArrayList<>(collection)` = no-arg creates empty list with default capacity 10; copy constructor fills new list with all elements from passed collection — used in RankingService to avoid modifying original data (defensive programming)
+- `Map.values()` = returns a Collection view of all values in the map (no keys); it's a live view, not a snapshot — that's why `getAllPlayers()` wraps it with `new ArrayList<>()` to break the reference to internal data
+- `sorted.sort((a,b) -> {...})` = multi-level sorting: primary by win rate ↓, tie-break by level ↓, then by matches played ↓; each comparison calls `compare(a,b)` which returns negative (a before b), zero (tie), or positive (a after b)
+- Interface vs Method: interface = contract defining what methods must exist (no body); method = concrete executable code (has body `{ ... }`)
+- Java 8+ interfaces can also have `default` methods (with body — all List implementations share same sort logic) and `static` methods; `sort()` is a `default` method because the algorithm (toArray → Arrays.sort → write back) is identical for all List implementations
+- `sort` parameter is a `Comparator` object — a functional interface with one abstract method `int compare(T o1, T o2)`; the lambda `(a,b) -> {...}` is implicitly converted to a Comparator by the compiler
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** Deep dive into RankingService. I now understand the full chain: data copying → sorting with multi-level tie-breaking → formatting. I also clarified the difference between interface (contract) and method (implementation), and why `List.sort()` is a default method, not abstract.
+
+---
+
+## Prompt 24
+
+- **Time:** 2026-06-15
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant / Java Tutor
+- **Related Commit:** Pending
+
+### My Prompt
+
+"函数式接口和普通接口有什么区别" / "能不能重新讲一下lambda表达式" / "它返回什么数字代表什么意思" / "Double.compare(b.getWinRate(), a.getWinRate());这个比较是什么意思" / "所以这个lambda表达式就是比较两个东西吗" / "formatLeaderboard(...)这return的是什么" / "getTopByLevel(int n)这个方法是把所有的player都排序吗" / "这个lambda表达式不是只有a和b吗" / "所以只要在sorted中的sort调用lambda表达式就会把全部成员都排好序吗"
+
+### AI Response Summary
+
+AI explained:
+- Functional interface vs regular interface: functional interface has exactly ONE abstract method (can have many default/static methods) — this is why it can be used with lambda; `@FunctionalInterface` annotation enforces this at compile time
+- Lambda evolution: standalone class → anonymous inner class → lambda — lambda only keeps the useful parts (parameters + body), compiler infers the rest from target type
+- `compare(a,b)` return values: negative → a before b; zero → tie; positive → a after b. To get descending order, put `b` as the first argument: `Double.compare(b.getWinRate(), a.getWinRate())`
+- `Double.compare(x,y)` = safe double comparison handling NaN, infinity, precision; `Integer.compare(x,y)` = same for int. Both are preferred over raw subtraction
+- Lambda only defines pairwise comparison rule; TimSort algorithm handles the logistics — it picks which two to compare, how many rounds needed, and merges them until all sorted. Once `sort()` returns, the entire list is sorted.
+- `formatLeaderboard(title, sorted, n)` returns a formatted String (the leaderboard table); `Math.min(n, sorted.size())` prevents out-of-bounds when n > actual count
+- `getTopByLevel(n)` sorts ALL 12 players, but `formatLeaderboard` only displays top n via `int limit = Math.min(n, sorted.size())`
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** I now deeply understand lambda — it's just a compact way to pass behavior, and the compiler figures out the types from context. I also understand that `sort` + lambda sorts the entire list, and `formatLeaderboard` just takes the top N for display. The `Double.compare(b, a)` trick (b first = descending) is now clear.
+
+---
+
+## Prompt 25
+
+- **Time:** 2026-06-15
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant / Java Tutor
+- **Related Commit:** Pending
+
+### My Prompt
+
+"接口可以对接什么" / "接口怎么知道对接的类可以实现它的抽象方法" / "custom score这是什么意思" / "StringBuilder这个类是什么" / "append是什么方法" / "int limit = Math.min(n, sorted.size());这个取得是什么" / "sb.append(String.format(...))这些是显示什么" / "formatLeaderboardWithScore这里打的是什么" / "getEquipmentRankingByUsage这是实现什么功能的" / "我又不记得put方法是什么了" / "usageCount.put(e.getId(), 0);这里为什么对应的值都是0" / "二重for是什么" / "usageCount.getOrDefault(e.getId(), 0)这个表达式是什么意思"
+
+### AI Response Summary
+
+AI explained:
+- Interface connections: (1) implemented by classes via `implements`; (2) can extend another interface via `extends`; (3) as reference type accepting any implementing class — this is polymorphism. The compiler enforces the contract — missing abstract method = compile error.
+- Custom score formula: `winRate × 0.4 + level × 0.3 + matches × 0.3` — a weighted composite that prevents a 10-game player with 100% win rate from outranking a 500-game veteran with 70% win rate
+- `StringBuilder` = mutable character sequence for efficient string concatenation; unlike immutable String (creates new object on every `+`), StringBuilder appends to the same internal array, then converts to String once via `toString()`. Essential in loops.
+- `append()` = adds content to the StringBuilder's internal array, returns `this` for method chaining (e.g., `sb.append("A").append("B")`)
+- `Math.min(n, sorted.size())` = takes the smaller of the two values, preventing `IndexOutOfBoundsException` when user requests more items than exist
+- `String.format("%-4s %-6s ...", ...)` = formats a table header row with column widths; `-` = left-align, number = width in characters
+- `formatLeaderboardWithScore` = variant of `formatLeaderboard` that adds a "Score" column showing the custom composite score
+- `getEquipmentRankingByUsage` = ranks equipment by how many heroes use each item (usage count); initializes all counts to 0, then double-loops: outer over heroes, inner over each hero's equipment, incrementing count for each use
+- `put(key, value)` = inserts key-value pair into Map; if key exists, overwrites old value and returns it; if key doesn't exist, returns null
+- `getOrDefault(key, defaultValue)` = returns the value if key exists, otherwise returns the specified default (instead of null) — prevents NullPointerException
+- The classic counting pattern: `map.put(key, map.getOrDefault(key, 0) + 1)` — read old count (default 0), add 1, write back
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** I now understand all the utility methods used in RankingService. The double loop for counting equipment usage, the `getOrDefault` pattern for safe counting, `StringBuilder` for efficient string building, and `String.format` for column alignment. I also understand the custom score formula rationale — it balances win rate, level, and activity into one fair ranking.
+
+---
+
+## Prompt 26
+
+- **Time:** 2026-06-15
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant
+- **Related Commit:** Pending
+
+### My Prompt
+
+"阅读一下requirement，我这个程序还有什么需要做的"
+
+### AI Response Summary
+
+AI reviewed all project files (`plan.md`, `README.md`, `docs/design.md`, `docs/test-cases.md`, all 16 Java source files) and produced a comprehensive gap analysis:
+
+✅ Already implemented: Player Lookup, Team Overview, Hero Details, Equipment Statistics, Match History, Leaderboard, Admin CRUD (all 5 entity types), Authentication, Inheritance (Person→Player/Admin), Encapsulation, Collections (HashMap/ArrayList), Enums, DataInitializer (3 teams × 4-5 players, 15 heroes, 20 equipment, 10 matches)
+
+❌ Missing:
+1. 🔴 `Authenticatable` / `Searchable` interfaces — plan explicitly requires Interface as a Java concept
+2. 🔴 `FileStorageService` — file persistence is a core plan requirement; Test 12 cannot run without it
+3. 🔴 `AuthenticationService` — plan lists it as a separate service class
+4. 🟡 Test cases not filled in (`test-cases.md` all blank)
+5. 🟡 Reflection report not written (`reflection.md` all blank)
+6. 🟡 plan.md stages not updated; README checklist not checked
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** Clear gap analysis. I know what to work on next — the interfaces (Authenticatable, Searchable) and FileStorageService are the highest priority missing items. Test cases and reflection report need to be completed before submission.
