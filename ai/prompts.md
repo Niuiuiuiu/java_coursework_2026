@@ -748,3 +748,42 @@ AI reviewed all project files (`plan.md`, `README.md`, `docs/design.md`, `docs/t
 - [ ] Rejected
 
 **Explanation:** Clear gap analysis. I know what to work on next — the interfaces (Authenticatable, Searchable) and FileStorageService are the highest priority missing items. Test cases and reflection report need to be completed before submission.
+
+---
+
+## Prompt 27
+
+- **Time:** 2026-06-16 to 2026-06-17
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant / Java Tutor
+- **Related Commit:** Pending
+
+### My Prompt
+
+"menuMyProfile();这个是看什么的" / "为什么管理员看不了" / "trim()这个是什么" / "input.waitForEnter();这一句有什么用" / "现在程序的账户有哪些" / "sb.toString()这是什么方法" / "leave blank这是什么意思" / "put能不能再讲一下这个put" / "public boolean updatePlayer(...)这里调用put是做什么用的" / "containsKey这个方法是什么" / "可是这里面的player对象不是一样的吗，只是里面的成员变量被修改了" / "CRUD是什么" / "Java的try catch关键字是什么" / "catch里面这串东西IllegalArgumentException e是什么" / "private int readOptionalInt(...)这个方法是做什么用的" / "parseInt(s)这个方法是什么意思"
+
+### AI Response Summary
+
+AI explained:
+- `menuMyProfile()` = displays the currently logged-in player's full profile + last 5 match records. Only available in Player menu, not Admin menu — because Admin doesn't have player-specific fields (level, winRate, heroes, teamId)
+- `trim()` = removes leading and trailing whitespace from a string; used in `InputHelper` to handle accidental spaces in user input (e.g., `" P001"` → `"P001"`)
+- `waitForEnter()` = pauses the program and waits for user to press Enter before continuing — prevents the menu from immediately overwriting search results
+- Program accounts: 1 admin (`admin`/`admin123`) + 12 players (`player1`–`player12`, all password `pass123`), spanning 3 teams (Dragon Warriors, Shadow Elite, Mythic Storm). Login uses username; player lookup uses ID (P001–P012)
+- `sb.toString()` = converts the mutable StringBuilder's internal character array into an immutable String — the final step before returning formatted text
+- "leave blank" = a prompt telling users the field is optional; however `InputHelper.readString()` doesn't actually allow empty input, so there's a mismatch between the prompt text and the actual behavior
+- `put(key, value)` review: stores a key-value pair in HashMap; if key exists, overwrites old value and returns it; if key doesn't exist, inserts new pair and returns null. Used for both add and update operations
+- `updatePlayer()` uses `put` to replace the old Player object with the updated one; BUT in the current `editPlayer()` flow, `get` returns the same object reference from the Map — calling setters on it already mutates the Map's data directly, so `put` is technically redundant in that specific case. It exists as a defensive design: all write operations go through the same CRUD entry point, making it easy to add logging, validation, or file sync later
+- `containsKey(key)` = returns `boolean` — checks whether a key exists in the Map without retrieving the value; lighter than `get()` when you only need to know presence
+- `CRUD` = the four fundamental data operations: Create (add), Read (get), Update (update), Delete (delete). Every entity in GameDataManager has a full CRUD set. An IMS is essentially a CRUD system with a menu interface
+- `try-catch` = exception handling mechanism. `try { ... }` contains code that might throw an exception; `catch (ExceptionType e) { ... }` catches and handles it, preventing program crash. Used in `InputHelper.readInt()` to catch `NumberFormatException` when user enters non-numeric input, and in `adminManageHeroes()` to catch `IllegalArgumentException` when user enters invalid hero type
+- `IllegalArgumentException` = a Java built-in exception thrown when a method receives an illegal argument (e.g., `HeroType.valueOf("invalid")`). `e` is the caught exception object variable — can be named anything; `e` is convention
+- `readOptionalInt(prompt)` = reads an optional integer from the user; returns the parsed int if valid input, returns -1 if user presses Enter (skips) or enters invalid text. The -1 acts as a "no change" signal since game levels can't be negative. Used in `editPlayer()` to allow users to keep current values by pressing Enter
+- `Integer.parseInt(s)` = parses a String into an int primitive. e.g., `"35"` → `35`, `"-5"` → `-5`, `"abc"` → throws `NumberFormatException`. Needed because user input is always a String; parseInt converts it for numeric comparison and storage
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** Covered method-level details across Main.java, InputHelper, GameDataManager, and SearchService. I now understand: (1) the full account list and login vs ID distinction; (2) CRUD pattern and why updatePlayer's put is currently redundant but defensively designed; (3) exception handling with try-catch and common exception types; (4) utility methods like trim(), parseInt(), waitForEnter(), and readOptionalInt. The "leave blank" bug (readString doesn't allow empty) is noted for potential fix.
