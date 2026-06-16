@@ -72,6 +72,15 @@ public class InputHelper {
     }
 
     /**
+     * Read a string, allowing empty input (returns "" if user presses Enter).
+     * Unlike readString(), this does not reject blank input.
+     */
+    public String readOptionalString(String prompt) {
+        System.out.print(prompt);
+        return scanner.nextLine().trim();
+    }
+
+    /**
      * Display a prompt and wait for the user to press Enter.
      */
     public void waitForEnter() {

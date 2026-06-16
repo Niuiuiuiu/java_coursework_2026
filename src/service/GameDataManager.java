@@ -290,7 +290,7 @@ public class GameDataManager implements Serializable {
         // Sort by date descending (most recent first), then take the first `limit`
         result.sort((m1, m2) -> m2.getMatchDate().compareTo(m1.getMatchDate()));
         if (limit > 0 && limit < result.size()) {
-            result = result.subList(0, limit);
+            result = new ArrayList<>(result.subList(0, limit));
         }
         return result;
     }
@@ -298,6 +298,21 @@ public class GameDataManager implements Serializable {
     public boolean addMatch(MatchRecord match) {
         if (getMatchById(match.getMatchId()) != null) {
             return false;  // Duplicate
+        }
+        // Update team stats
+        Team teamA = teams.get(match.getTeamAId());
+        Team teamB = teams.get(match.getTeamBId());
+        if (teamA != null) {
+            teamA.setTotalMatches(teamA.getTotalMatches() + 1);
+            if (match.getResultForTeamA() == MatchResult.WIN) {
+                teamA.setTotalWins(teamA.getTotalWins() + 1);
+            }
+        }
+        if (teamB != null) {
+            teamB.setTotalMatches(teamB.getTotalMatches() + 1);
+            if (match.getResultForTeamA() == MatchResult.LOSS) {
+                teamB.setTotalWins(teamB.getTotalWins() + 1);
+            }
         }
         return matchRecords.add(match);
     }

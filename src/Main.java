@@ -115,10 +115,11 @@ public class Main {
         System.out.println("  5.  Match History");
         System.out.println("  6.  Leaderboard");
         System.out.println("  7.  My Profile");
+        System.out.println("  8.  Edit My Info");
         System.out.println("  0.  Logout");
         System.out.println("==============================================");
 
-        int choice = input.readIntInRange("Select: ", 0, 7);
+        int choice = input.readIntInRange("Select: ", 0, 8);
         switch (choice) {
             case 1: menuPlayerLookup(); break;
             case 2: menuTeamOverview(); break;
@@ -127,6 +128,7 @@ public class Main {
             case 5: menuMatchHistory(); break;
             case 6: menuLeaderboard(); break;
             case 7: menuMyProfile(); break;
+            case 8: menuEditMyInfo(); break;
             case 0: doLogout(); break;
         }
     }
@@ -324,6 +326,32 @@ public class Main {
             String history = searchService.getPlayerMatchHistory(p.getId(), 5);
             System.out.println(history);
         }
+        input.waitForEnter();
+    }
+
+    // ==================== Edit My Info (Player self-edit) ====================
+
+    private void menuEditMyInfo() {
+        if (!(currentUser instanceof Player)) {
+            System.out.println("Only players can edit their own information.");
+            input.waitForEnter();
+            return;
+        }
+        Player p = (Player) currentUser;
+        System.out.println("\n--- Edit My Info ---");
+        System.out.println("(Leave blank to keep current value)");
+
+        String name = readOptionalString("Name [" + p.getName() + "]: ");
+        if (!name.isEmpty()) p.setName(name);
+
+        String username = readOptionalString("Username [" + p.getUsername() + "]: ");
+        if (!username.isEmpty()) p.setUsername(username);
+
+        String password = readOptionalString("New Password (hidden): ");
+        if (!password.isEmpty()) p.setPassword(password);
+
+        dataManager.updatePlayer(p);
+        System.out.println("✅ Your information has been updated.");
         input.waitForEnter();
     }
 
@@ -604,13 +632,11 @@ public class Main {
     // ==================== Helper methods ====================
 
     private String readOptionalString(String prompt) {
-        System.out.print(prompt);
-        return input.readString("").trim();
+        return input.readOptionalString(prompt);
     }
 
     private int readOptionalInt(String prompt) {
-        System.out.print(prompt);
-        String s = input.readString("").trim();
+        String s = input.readOptionalString(prompt);
         if (s.isEmpty()) return -1;
         try {
             return Integer.parseInt(s);

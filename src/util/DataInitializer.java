@@ -127,19 +127,22 @@ public class DataInitializer {
         t1.addMember("P005");
 
         Team t2 = new Team("T002", "Shadow Elite");
-        t2.setTotalMatches(110);
-        t2.setTotalWins(68);
+        t2.setTotalMatches(130);
+        t2.setTotalWins(82);
         t2.addMember("P006");
         t2.addMember("P007");
         t2.addMember("P008");
         t2.addMember("P009");
+        t2.addMember("P013");
 
         Team t3 = new Team("T003", "Mythic Storm");
-        t3.setTotalMatches(105);
-        t3.setTotalWins(60);
+        t3.setTotalMatches(125);
+        t3.setTotalWins(74);
         t3.addMember("P010");
         t3.addMember("P011");
         t3.addMember("P012");
+        t3.addMember("P014");
+        t3.addMember("P015");
 
         list.add(t1);
         list.add(t2);
@@ -164,18 +167,23 @@ public class DataInitializer {
         Player p07 = new Player("P007", "StormRider",    "player7",  "pass123", 26, 160,  88);
         Player p08 = new Player("P008", "FrostQueen",    "player8",  "pass123", 24, 140,  75);
         Player p09 = new Player("P009", "IronWall",      "player9",  "pass123", 28, 195, 110);
+        Player p13 = new Player("P013", "ThunderGod",    "player13", "pass123", 27, 165,  95);
 
         // --- Mythic Storm (T003) ---
         Player p10 = new Player("P010", "SwiftArrow",    "player10", "pass123", 27, 185, 105);
         Player p11 = new Player("P011", "MysticMage",    "player11", "pass123", 25, 155,  92);
         Player p12 = new Player("P012", "BladeDancer",   "player12", "pass123", 29, 210, 135);
+        Player p14 = new Player("P014", "FlameHeart",    "player14", "pass123", 24, 135,  72);
+        Player p15 = new Player("P015", "WindWalker",    "player15", "pass123", 26, 145,  80);
 
         // Assign team references
         p01.setTeamId("T001"); p02.setTeamId("T001"); p03.setTeamId("T001");
         p04.setTeamId("T001"); p05.setTeamId("T001");
         p06.setTeamId("T002"); p07.setTeamId("T002"); p08.setTeamId("T002");
         p09.setTeamId("T002");
+        p13.setTeamId("T002");
         p10.setTeamId("T003"); p11.setTeamId("T003"); p12.setTeamId("T003");
+        p14.setTeamId("T003"); p15.setTeamId("T003");
 
         // Assign heroes to players (at least 3 each)
         addOwnedHeroes(p01, allHeroes, "H001", "H004", "H007", "H014");
@@ -187,13 +195,17 @@ public class DataInitializer {
         addOwnedHeroes(p07, allHeroes, "H010", "H007", "H014");
         addOwnedHeroes(p08, allHeroes, "H001", "H002", "H003");
         addOwnedHeroes(p09, allHeroes, "H007", "H008", "H011");
+        addOwnedHeroes(p13, allHeroes, "H003", "H006", "H013");
         addOwnedHeroes(p10, allHeroes, "H014", "H015", "H012");
         addOwnedHeroes(p11, allHeroes, "H001", "H003", "H013");
         addOwnedHeroes(p12, allHeroes, "H004", "H005", "H006", "H010");
+        addOwnedHeroes(p14, allHeroes, "H007", "H009", "H014");
+        addOwnedHeroes(p15, allHeroes, "H002", "H010", "H015");
 
         list.add(p01); list.add(p02); list.add(p03); list.add(p04);
         list.add(p05); list.add(p06); list.add(p07); list.add(p08);
         list.add(p09); list.add(p10); list.add(p11); list.add(p12);
+        list.add(p13); list.add(p14); list.add(p15);
 
         return list;
     }
