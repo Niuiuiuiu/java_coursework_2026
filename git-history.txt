@@ -1,4 +1,12 @@
-* ca96bb9 (HEAD -> main, origin/main, origin/HEAD) [Test] complete all 12 test cases with actual outputs and pass/fail results
+* aa84e82 (HEAD -> main, origin/main, origin/HEAD) [AI-Architect] document interface design rationale: placement in service package
+* 2f9b8e2 [AI-Architect] add architecture design rationale: serialization choice, ID-based refs, tie-breaking
+* e6c0a68 [AI-Review] second-pass review: fix Javadoc/Test/refl docs inconsistencies
+* 41dd664 [Human] improve reflection Q5: clarify bug discovery process with concrete examples
+* ddb2dd7 [Human] fix Test 03: remove stale Team Alpha reference, match actual dataset
+* 5304edb [Human] fix DataInitializer javadoc: 12 → 15 players to match actual dataset
+* 991f6ac [Docs] add UML diagram, restore Prompt Strategy section in plan, update README checklist
+* d8d3abe [Docs] add git-history.txt with full commit log
+* ca96bb9 [Test] complete all 12 test cases with actual outputs and pass/fail results
 * cc2a7e4 [Docs] complete reflection.md: answer all 10 reflection questions
 * 77dd50b [Docs] record Testing/Reviewer Agent findings in agent-log
 * 03e5ff9 [Fix] expand teams to 5 players each; add player self-edit; fix readOptionalString bug; fix addMatch team stats update; defensive copy for subList
