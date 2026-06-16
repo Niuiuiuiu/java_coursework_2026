@@ -1,0 +1,13 @@
+* ca96bb9 (HEAD -> main, origin/main, origin/HEAD) [Test] complete all 12 test cases with actual outputs and pass/fail results
+* cc2a7e4 [Docs] complete reflection.md: answer all 10 reflection questions
+* 77dd50b [Docs] record Testing/Reviewer Agent findings in agent-log
+* 03e5ff9 [Fix] expand teams to 5 players each; add player self-edit; fix readOptionalString bug; fix addMatch team stats update; defensive copy for subList
+* 7a2e509 [AI-Implementation] implement FileStorageService: save/load with Java serialization; auto-save on logout/exit
+* db63bcc [AI-Architect] create Authenticatable and Searchable interfaces; integrate with Person and SearchService
+* 201073f [Docs] add Java concept Q&A prompt 27: CRUD, try-catch, utility methods
+* 53f13b6 [Docs] add Java concept Q&A prompts 23-26; add inline comments in GameDataManager
+* 09e5706 [AI-Implementation] implement Stage 4: service layer and console menu interface
+* 54a24e2 [Docs] update AI evidence records with Java concept Q&A sessions
+* 9793cb9 [AI-Implementation] implement all model classes and DataInitializer; update AI evidence records
+* 273cb80 [Human] create initial project structure, README, plan.md, and documentation templates
+* 777bfb5 Initial commit
