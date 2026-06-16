@@ -135,20 +135,36 @@ Target users: Game players (view data) and system administrators (manage data).
 
 All AI outputs will be reviewed, tested, and modified as needed before acceptance.
 
-## 8. Development Timeline
+## 8. Prompt Strategy
+
+My prompt strategy follows these principles:
+
+1. **Specific over general**: Instead of "write my project," I ask targeted questions like "implement player lookup using HashMap" or "what does `compare()` return?"
+2. **Explain before implementing**: For unfamiliar Java concepts, I ask the AI to explain first (e.g., "what is a lambda expression"), then request the code
+3. **Verify with javac**: After every code change, I compile immediately. Zero compiler output = passed. Red errors = review and fix.
+4. **Record every prompt**: All AI interactions are logged in `ai/prompts.md` with date, model, agent role, actual prompt, AI summary, and whether I accepted/modified/rejected the response
+5. **Human override**: When AI suggestions conflict with requirements (e.g., AI omitted Section 8 from plan.md), I manually fix them
+
+How I check AI outputs:
+- Does the code compile? (`javac`)
+- Does the code run correctly? (manual menu testing)
+- Can I explain every line? (recorded Q&A in prompts.md)
+- Does it meet the requirement? (cross-reference with requirement PDF)
+
+## 9. Development Timeline
 
 | Stage | Tasks | Status |
 |-------|-------|--------|
 | Stage 1 | Read requirements, create repo, write plan.md | ✅ |
-| Stage 2 | AI Architect review of class design | ⬜ |
-| Stage 3 | Implement model classes + initial data | ⬜ |
-| Stage 4 | Menu system + search features | ⬜ |
-| Stage 5 | Authentication + admin/player permissions | ⬜ |
-| Stage 6 | Persistence + ranking functions | ⬜ |
-| Stage 7 | AI Testing/Review, fix bugs | ⬜ |
-| Stage 8 | Documentation, reflection, final testing | ⬜ |
+| Stage 2 | AI Architect review of class design | ✅ |
+| Stage 3 | Implement model classes + initial data | ✅ |
+| Stage 4 | Menu system + search features | ✅ |
+| Stage 5 | Authentication + admin/player permissions | ✅ |
+| Stage 6 | Persistence + ranking functions | ✅ |
+| Stage 7 | AI Testing/Review, fix bugs | ✅ |
+| Stage 8 | Documentation, reflection, final testing | ✅ |
 
-## 9. Testing Plan
+## 10. Testing Plan
 
 See [docs/test-cases.md](docs/test-cases.md) for detailed test cases.
 
@@ -164,7 +180,7 @@ Key test areas:
 9. Login/logout functionality
 10. File save/load data integrity
 
-## 10. Risk Analysis
+## 11. Risk Analysis
 
 | Risk | Mitigation |
 |------|------------|
@@ -174,6 +190,6 @@ Key test areas:
 | File I/O errors | Use try-catch, validate file format, provide fallback data |
 | Git history too thin | Commit after every meaningful change; use proper prefixes |
 
-## 11. Final Reflection Placeholder
+## 12. Final Reflection Placeholder
 
 *To be completed after implementation. See [ai/reflection.md](ai/reflection.md)*

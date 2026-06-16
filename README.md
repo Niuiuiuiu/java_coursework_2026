@@ -19,18 +19,21 @@ java -cp out Main
 | Role | Username | Password |
 |------|----------|----------|
 | Admin | admin | admin123 |
-| Player | player1 | pass123 |
+| Player (12 accounts) | player1–player15 | pass123 |
 
-## 4. Planned Features
+All 15 player accounts share the same password.
 
-- [ ] Player Lookup
-- [ ] Team Overview
-- [ ] Hero Details
-- [ ] Equipment Statistics
-- [ ] Match History
-- [ ] Leaderboard
-- [ ] Data Management (Admin)
-- [ ] Authentication (Login/Logout)
+## 4. Implemented Features
+
+- [x] Player Lookup (by ID or name, shows heroes + equipment)
+- [x] Team Overview (members, avg level, win rate, top player)
+- [x] Hero Details (type, stats, equipment, owners)
+- [x] Equipment Statistics (rank by score or usage count)
+- [x] Match History (last N by player or team)
+- [x] Leaderboard (win rate, level, matches, custom score)
+- [x] Data Management (Admin CRUD for players/heroes/equipment/teams/matches)
+- [x] Authentication (Login/Logout with role-based menus)
+- [x] File Persistence (auto-save/load with Java serialization)
 
 ## 5. Java Concepts Used
 
@@ -56,4 +59,6 @@ See [docs/test-cases.md](docs/test-cases.md).
 ## 8. Known Limitations
 
 - Console-based interface (GUI is extra credit)
-- Data persistence via text files (no database)
+- Data persistence via Java serialization (binary .dat file)
+- No database integration
+- Player self-edit limited to name, username, and password
