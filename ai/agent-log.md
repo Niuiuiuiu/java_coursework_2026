@@ -117,14 +117,14 @@ I accepted this approach because it requires the least new code while still demo
 
 **Main contribution:**
 
-Will be used later in Stage 7 to review code for bugs, test edge cases, and verify data consistency (e.g., deleting a Hero removes it from all Players' owned hero lists).
+Reviewed all source files for bugs. Found 7 issues: addMatch never updated Team stats; formatMatchList had redundant logic; readOptionalString couldn't accept empty input; editPlayer lacked range validation; fragile subList; Scanner close risk. Fixed 3 issues that affected observable behavior.
 
 **Human decision:**
 
-Not yet engaged. Planned for Stage 7 of the development timeline.
+I fixed the "leave blank" UX bug (added readOptionalString to InputHelper), made addMatch auto-update team totalMatches/totalWins, and added defensive copy for subList. Accepted reviewer's findings because Issues 2 and 4 were real bugs.
 
 **Related commits:**
-- (pending)
+- 03e5ff9 — fix bugs found by Testing/Reviewer Agent
 
 ---
 
