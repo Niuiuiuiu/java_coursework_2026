@@ -3,14 +3,17 @@ package service;
 import model.*;
 import util.DataInitializer;
 
+import java.io.*;
 import java.util.*;
 
 /**
  * Central data store for the Honor of Kings IMS.
  * Holds all system data and provides CRUD operations.
  * All data mutations go through this class to maintain consistency.
+ * Implements Serializable to support file persistence via FileStorageService.
  */
-public class GameDataManager {
+public class GameDataManager implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     // === Core data collections ===
     private Map<String, Player> players;        // ID → Player

@@ -94,7 +94,22 @@ I need to continue reviewing each class in detail to make sure I can explain eve
 
 **Related commits:**
 - 9793cb9 — Stage 3: all model classes + DataInitializer
-- (pending) — Stage 4: service classes + Main.java menu
+- 09e5706 — Stage 4: service classes + Main.java menu
+- db63bcc — Stage 6: Authenticatable and Searchable interfaces
+- (pending) — Stage 6: FileStorageService and file persistence
+
+### File I/O Implementation (Stage 6):
+
+Implemented data persistence using Java serialization:
+- `FileStorageService.java` — save/load GameDataManager as a single binary file (`gamedata.dat`). Uses `ObjectOutputStream`/`ObjectInputStream` with try-with-resources for automatic resource cleanup. Handles missing files gracefully (returns null → falls back to initial dataset).
+- `GameDataManager.java` — added `implements Serializable` (all contained model classes were already Serializable)
+- `Main.java` integration — loads saved data on startup; auto-saves on logout and exit; added "Save Data to File" option (menu item 12) in admin menu
+
+Design rationale: Since all model classes already implement Serializable (they had it since Stage 3), the simplest and most robust approach is to serialize the entire GameDataManager in one pass rather than writing per-entity CSV/JSON files. This avoids field-by-field parsing, preserves all object references, and correctly handles the HashMap/ArrayList internal structure.
+
+**Human decision:**
+
+I accepted this approach because it requires the least new code while still demonstrating meaningful File I/O. The serialization method naturally handles all edge cases (null teamId, empty hero lists) without manual field serialization. The auto-save on logout ensures data is never lost even if the user forgets to manually save.
 
 ---
 

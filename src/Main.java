@@ -12,12 +12,22 @@ public class Main {
     private SearchService searchService;
     private RankingService rankingService;
     private InputHelper input;
+    private FileStorageService fileStorage;
 
     private Person currentUser;  // Currently logged-in user (null if not logged in)
 
     public Main() {
-        this.dataManager = new GameDataManager();
-        dataManager.initializeData();
+        this.fileStorage = new FileStorageService("gamedata.dat");
+
+        // Try to load saved data first; fall back to initial dataset
+        GameDataManager loaded = fileStorage.load();
+        if (loaded != null) {
+            this.dataManager = loaded;
+        } else {
+            this.dataManager = new GameDataManager();
+            dataManager.initializeData();
+        }
+
         this.searchService = new SearchService(dataManager);
         this.rankingService = new RankingService(dataManager);
         this.input = new InputHelper();
@@ -62,6 +72,8 @@ public class Main {
                 doLogin();
                 break;
             case 0:
+                System.out.println("Saving data before exit...");
+                fileStorage.save(dataManager);
                 System.out.println("Goodbye!");
                 input.close();
                 System.exit(0);
@@ -85,6 +97,7 @@ public class Main {
     }
 
     private void doLogout() {
+        fileStorage.save(dataManager);  // Auto-save on logout
         System.out.println("\n👋 Goodbye, " + currentUser.getName() + "!");
         currentUser = null;
     }
@@ -136,10 +149,12 @@ public class Main {
         System.out.println("  9.  Manage Equipment");
         System.out.println("  10. Manage Teams");
         System.out.println("  11. Manage Match Records");
+        System.out.println("----------------------------------------------");
+        System.out.println("  12. Save Data to File");
         System.out.println("  0.  Logout");
         System.out.println("==============================================");
 
-        int choice = input.readIntInRange("Select: ", 0, 11);
+        int choice = input.readIntInRange("Select: ", 0, 12);
         switch (choice) {
             case 1:  menuPlayerLookup(); break;
             case 2:  menuTeamOverview(); break;
@@ -152,6 +167,8 @@ public class Main {
             case 9:  adminManageEquipment(); break;
             case 10: adminManageTeams(); break;
             case 11: adminManageMatches(); break;
+            case 12: fileStorage.save(dataManager);
+                     input.waitForEnter(); break;
             case 0:  doLogout(); break;
         }
     }
