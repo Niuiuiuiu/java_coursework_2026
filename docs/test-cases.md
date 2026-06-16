@@ -31,9 +31,9 @@ Minimum 10 test cases required. Each test must include: ID, function tested, inp
 - **Function Tested:** Team Overview
 - **Input:** Search team by ID: "T001"
 - **Expected Output:** Display team name (Dragon Warriors), all 5 members, average level, total matches, win rate, top player
-- **Actual Output:** System displayed: ID=T001, Name=Dragon Warriors, Members=5, Avg Level=28.2, Matches=120 total, Win Rate=60.0%, Top Player=PhoenixFire (WinRate: 68.4%). All 5 members listed with level, win rate, and hero count. (Note: team name "Team Alpha" does not exist in dataset — tested with actual team "Dragon Warriors" instead.)
+- **Actual Output:** System displayed: ID=T001, Name=Dragon Warriors, Members=5, Avg Level=27.8, Matches=120 total, Win Rate=60.0%, Top Player=PhoenixFire (WinRate: 68.4%). All 5 members listed with level, win rate, and hero count.
 - **Result:** [x] Pass / [ ] Fail
-- **Bug Found:** None. The test input "Team Alpha" didn't match actual team names; adjusted to use existing team "Dragon Warriors".
+- **Bug Found:** None.
 
 ---
 
