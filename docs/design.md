@@ -46,4 +46,8 @@ The system follows a layered architecture:
 | Console-first | Meets core requirements; GUI is extra credit |
 | Centralized GameDataManager | Single source of truth for all CRUD operations |
 | HashMap for player storage | O(1) lookup by ID |
-| Text/CSV file format | Simple, no external dependencies required |
+| Java serialization for persistence | All model classes already Serializable; serializing entire GameDataManager is simpler than per-field CSV, preserves object graph |
+| Binary .dat format | Avoids encoding issues with Chinese hero/equipment names; no external library needed |
+| Interface in service package | Authenticatable and Searchable are service-level contracts, not model concerns; Person and SearchService implement them respectively |
+| ID-based references (String) | Teams reference players by ID string rather than object reference — avoids circular dependency and makes serialization cleaner |
+| Ranking tie-breaking | Multi-level Comparator chain (primary → secondary → tertiary) with documented rules |
