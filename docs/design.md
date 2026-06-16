@@ -29,8 +29,9 @@ The system follows a layered architecture:
 - `MatchRecord` references Players and Heroes
 
 ### Interfaces
-- `Authenticatable` — defines login/logout behavior
-- `Searchable` — defines search-by-id and search-by-name methods
+- `Authenticatable` — authentication contract (service/): `checkPassword()`, `getUsername()`, `getRole()`. Implemented by `Person` so all subclasses are authenticatable.
+- `Searchable` — search contract (service/): `searchById()`, `searchByName()`. Implemented by `SearchService` to provide a unified entry point for all entity lookups.
+- Interface placement in `service/` package (not `model/`) follows the principle that interfaces define service-level capabilities, not model-level attributes.
 
 ## Data Flow
 
