@@ -111,7 +111,37 @@ Design rationale: Since all model classes already implement Serializable (they h
 
 I accepted this approach because it requires the least new code while still demonstrating meaningful File I/O. The serialization method naturally handles all edge cases (null teamId, empty hero lists) without manual field serialization. The auto-save on logout ensures data is never lost even if the user forgets to manually save.
 
----
+### Second Review Pass (Stage 7):
+
+Reviewed documentation consistency and test coverage. Findings:
+1. `DataInitializer.java` Javadoc header stated "12 players" but `createPlayers()` creates 15 (P001–P015) — documentation drift
+2. `test-cases.md` Test 03 had stale "Team Alpha" references in notes — the dataset only has Dragon Warriors, Shadow Elite, Mythic Storm
+3. `reflection.md` Q5 answer blurred the line between finding bugs personally (yes) and fixing them without AI (no) — needed clearer distinction
+
+**Human decision:**
+
+I accepted all three findings and fixed them manually: updated Javadoc to 15 players, cleaned Test 03 notes, and improved reflection Q5 to clearly describe my bug discovery process with specific examples.
+
+**Related commits:**
+- 5304edb — fix DataInitializer javadoc
+- ddb2dd7 — fix Test 03
+- 41dd664 — improve reflection Q5
+
+### Architecture Design Notes (Stage 2/8):
+
+Reviewed the final class architecture against the coursework requirements:
+- **Layered architecture**: Model → Service → Console UI. Each layer only depends on the layer below it. Main.java assembles everything at startup.
+- **Interface segregation**: `Authenticatable` (authentication contract) is separate from `Searchable` (lookup contract). A class can implement one without the other.
+- **Single source of truth**: `GameDataManager` is the only class that mutates data. All services read through it. File I/O saves/loads the entire manager atomically.
+- **Cascade integrity**: When deleting a Hero or Equipment, `GameDataManager` removes references from all dependent objects (players, heroes) to prevent dangling references.
+
+**Human decision:**
+
+I verified that all 8 functional requirements (5.1–5.8) map to specific service methods and menu options. The architecture satisfies the requirement that logic must not be concentrated in one large Main class — Main.java only orchestrates the menu; business logic lives in SearchService, RankingService, and GameDataManager.
+
+**Related commits:**
+- db63bcc — interface design
+- 7a2e509 — File I/O implementation
 
 ## Testing / Reviewer Agent
 
