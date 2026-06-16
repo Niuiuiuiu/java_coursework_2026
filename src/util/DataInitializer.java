@@ -7,8 +7,8 @@ import java.util.*;
  * Creates the initial hardcoded dataset for the Honor of Kings IMS.
  *
  * Dataset summary:
- *   - 3 teams
- *   - 12 players (each owns 3–4 heroes)
+ *   - 3 teams (5 players each)
+ *   - 15 players (each owns 3–4 heroes)
  *   - 15 heroes (each equipped with 2–3 equipment)
  *   - 20 equipment items
  *   - 10 match records
