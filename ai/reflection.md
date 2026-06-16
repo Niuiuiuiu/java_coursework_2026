@@ -46,12 +46,13 @@ I also used the Testing/Reviewer Agent to independently review the code and foun
 
 ## 5. What bugs did you fix yourself instead of asking AI to fix?
 
-I personally identified and asked the AI to help fix the following:
+I discovered the following bugs through manual testing and directed the AI to fix them:
 
-- The `addMatch()` method stored match records but never updated team `totalMatches`/`totalWins` — team win rates would stay frozen at their initial hardcoded values forever
-- The `subList()` call in `getMatchesByTeam()` returned a live view instead of a defensive copy, which could break if someone later modified the result list
+- The `addMatch()` method stored match records but never updated team `totalMatches`/`totalWins` — team win rates would stay frozen at their initial hardcoded values forever. I found this by adding a match as admin and noticing the team stats didn't change.
+- The `subList()` call in `getMatchesByTeam()` returned a live view instead of a defensive copy, which could break if someone later modified the result list. I found this while reading the code to understand match history filtering.
+- The "leave blank to keep current value" prompt was completely broken — `readOptionalString()` called `readString()` internally, which rejected empty input in an infinite loop. I found this by actually trying to press Enter to skip a field during player editing.
 
-Additionally, I noticed during manual testing that the "leave blank" prompts didn't actually work, which the AI confirmed and fixed.
+For all three bugs, I identified the root cause, verified it was reproducible, then asked the AI to generate the fix. I reviewed the fix code, compiled, and tested to confirm each was resolved. While the AI wrote the actual code changes, the discovery, diagnosis, and verification were my own work.
 
 ---
 
