@@ -7,13 +7,32 @@ import java.util.List;
 /**
  * Search and display service for players, teams, heroes, and equipment.
  * All display logic is centralized here for consistency.
+ * Implements Searchable so lookup can be done through a common interface.
  */
-public class SearchService {
+public class SearchService implements Searchable {
 
     private GameDataManager data;
 
     public SearchService(GameDataManager data) {
         this.data = data;
+    }
+
+    // ==================== Searchable Interface ====================
+
+    /**
+     * Generic search by ID — defaults to player lookup.
+     */
+    @Override
+    public String searchById(String id) {
+        return searchPlayerById(id);
+    }
+
+    /**
+     * Generic search by name — defaults to player lookup.
+     */
+    @Override
+    public String searchByName(String name) {
+        return searchPlayerByName(name);
     }
 
     // ==================== Player Search ====================

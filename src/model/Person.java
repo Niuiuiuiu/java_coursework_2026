@@ -1,12 +1,16 @@
 package model;
 
+import service.Authenticatable;
+
 import java.io.Serializable;
 
 /**
  * Abstract superclass for all users in the system.
  * Provides common attributes shared by Player and Admin.
+ * Implements Authenticatable so all subclasses (Player, Admin)
+ * can be authenticated through a common interface.
  */
-public abstract class Person implements Serializable {
+public abstract class Person implements Serializable, Authenticatable {
     private static final long serialVersionUID = 1L;
 
     private String id;

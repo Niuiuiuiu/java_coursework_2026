@@ -22,7 +22,25 @@ I accepted the overall structure because it matched the coursework requirements 
 **Related commits:**
 - 868996d — initial project structure and plan
 - 273cb80 — project structure pushed to remote
-- (pending) — model classes and data initializer
+- 9793cb9 — model classes and data initializer
+
+**Interface Design (Stage 6):**
+
+Designed and created two Java interfaces to satisfy the coursework requirement:
+- `Authenticatable` — defines the authentication contract: `checkPassword(String)`, `getUsername()`, `getRole()`. `Person` implements this interface, so all subclasses (Player, Admin) automatically satisfy it.
+- `Searchable` — defines the search contract: `searchById(String)`, `searchByName(String)`. `SearchService` implements this interface, with the generic methods defaulting to player lookup.
+
+Design decisions:
+- `Authenticatable` is placed in `service/` since it defines a service-level contract
+- `Person` implements `Authenticatable` because it already had all three required methods (`checkPassword`, `getUsername`, `getRole`)
+- `Searchable` uses generic method names (`searchById`/`searchByName`) rather than entity-specific names, making it reusable for any entity type
+
+**Human decision:**
+
+I accepted both interfaces because they fit the existing code without requiring any method rewrites — Person already had `checkPassword`, `getUsername`, and `getRole`; SearchService already had entity-specific search methods. I chose to map `searchById`/`searchByName` to player lookup as the default, since player search is the most frequently used feature. This satisfies the Interface requirement in the Java Concepts checklist.
+
+**Related commits:**
+- (pending) — Authenticatable and Searchable interfaces
 
 ---
 
