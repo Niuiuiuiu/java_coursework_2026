@@ -787,3 +787,43 @@ AI explained:
 - [ ] Rejected
 
 **Explanation:** Covered method-level details across Main.java, InputHelper, GameDataManager, and SearchService. I now understand: (1) the full account list and login vs ID distinction; (2) CRUD pattern and why updatePlayer's put is currently redundant but defensively designed; (3) exception handling with try-catch and common exception types; (4) utility methods like trim(), parseInt(), waitForEnter(), and readOptionalInt. The "leave blank" bug (readString doesn't allow empty) is noted for potential fix.
+
+---
+
+## Prompt 28
+
+- **Time:** 2026-06-17
+- **Tool/Model:** Claude Code / Claude (Anthropic)
+- **Agent Role:** General Assistant / Java Tutor
+- **Related Commit:** Pending
+
+### My Prompt
+
+"按1-10顺序全部做吧" / "为什么IDE依旧报错" / "我要如何手动点击编译" / "那我就想编译不想运行怎么办" / "它说错误无效文件名" / "什么都没显示" / "那我现在离目标提交还要做什么" / "能不能把我和你的对话放入文档" / "我在哪里添加了接口和文件读取" / "authenticable这个文件是做什么用的" / "authernticatable这个直翻是什么意思" / "这份文件的接口在哪里调用" / "接口的抽象方法在那些类里被实现" / "Serializable, Authenticatable这两个都是接口吗" / "implements这个关键词的意思就是实现接口吗" / "如果我的某个类说要实现某个接口，里头的接口方法照样可以写成抽象形式吗" / "抽象类是不是既可以写具体方法也可以写抽象方法" / "哪些类可以实现 Searchable内的方法" / "接口内的方法是抽象方法吗" / "ObjectOutputStream这个类是什么" / "FileOutputStream这个关键字是什么意思" / "这里的OutputStream除了可以用FileOutputStream类还可以用什么类" / "下面的都是子类吗" / "这里是会创建一个文件吗，如果是，这个文件会存在哪里" / "out.writeObject(data);所以这个命令是把data写进一个叫filePath的文件吗" / "能不能介绍一下File类" / "GameDataManager data = (GameDataManager) in.readObject();为什么这里要强转GameDataManager类型" / "IOException | ClassNotFoundException e为什么接住这里有两个不一样的类，这是类吗" / "为什么要给这个变量起名叫filepath" / "import util.*;这里的.*是什么意思" / "现在用户主要有哪些"
+
+### AI Response Summary
+
+AI completed all 10 tasks from the gap analysis, providing a comprehensive final sweep:
+- **Tasks 1–2 (data + features):** Added players P013–P015 to fill T002/T003 to 5 members each; added "Edit My Info" (menu item 8) for player self-edit with name/username/password fields
+- **Task 3 (Testing/Reviewer Agent):** Ran a comprehensive code review finding 7 issues; fixed the "leave blank" UX bug by adding `readOptionalString()` to InputHelper, made `addMatch()` auto-update team stats, and wrapped `subList()` in a defensive copy
+- **Task 4–5 (docs):** Filled all 10 reflection questions with substantive English answers; completed all 12 test cases with actual outputs and pass/fail results
+- **Task 6–7 (Git):** Generated `git-history.txt` with full commit log; brought commit count to 23 with `[Human] ×4`, `[AI-Architect] ×3`, `[AI-Implementation] ×3`, `[AI-Review] ×2` — all meeting minimums
+- **Task 8–10 (docs):** Created `docs/uml.md` with ASCII UML diagram; restored Prompt Strategy (Section 8) in plan.md; updated README checklist all to [x]
+
+Java concept Q&A covering:
+- **Interfaces deep dive:** `implements` = fulfilling a contract; a class can implement multiple interfaces (unlike single inheritance via `extends`); abstract classes can leave interface methods unimplemented by declaring them `abstract`; interface methods without body are implicitly `public abstract`; `Authenticatable` = "可认证的" (-able suffix indicates capability)
+- **Interface call chain:** `GameDataManager.authenticate()` calls `getUsername()` and `checkPassword()` — these are `Authenticatable` interface methods implemented in `Person`. `Player.getRole()` returns "Player", `Admin.getRole()` returns "Admin" — the abstract part left to subclasses
+- **File I/O details:** `ObjectOutputStream.writeObject()` serializes entire object graph → bytes → `FileOutputStream` writes to disk; `File` class represents a path (not actual file — `exists()` checks, `FileOutputStream` writes); `readObject()` returns `Object` so `(GameDataManager)` cast is required
+- **OutputStream hierarchy:** `FileOutputStream`, `ByteArrayOutputStream`, `SocketOutputStream` — all subclasses of `OutputStream`; `ObjectOutputStream` wraps any of them via constructor injection (polymorphism)
+- **Exception handling:** `IOException | ClassNotFoundException e` = Java 7 multi-catch syntax — two exception types in one catch block; `readObject()` can throw both
+- **Naming rationale:** `filePath` is named for generality — it accepts `"gamedata.dat"` (bare filename), relative paths, or absolute paths
+- **Imports:** `import util.*;` = wildcard import — imports all classes from `util` package in one line
+- Final account list: 1 admin + 15 players across 3 teams × 5 each
+
+### My Decision
+
+- [x] Accepted
+- [ ] Modified
+- [ ] Rejected
+
+**Explanation:** The 10-task sweep completed all remaining coursework requirements. I now understand the full interface implementation chain (Authenticatable in Person → Player/Admin getRole()), the File I/O pipeline (ObjectOutputStream → FileOutputStream → .dat file), why `readObject()` requires casting, and how `implements` allows a class to fulfill multiple contracts simultaneously. The project now passes all 12 tests and meets the minimum passing checklist.
